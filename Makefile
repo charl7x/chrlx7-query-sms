@@ -40,3 +40,4 @@ release: clean build
 	@echo ""
 	@echo "发布包包含："
 	@ls -lh release/
+

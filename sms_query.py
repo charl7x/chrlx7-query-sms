@@ -52,7 +52,7 @@ class SMSQueryClient:
             phone_number: 手机号码
             start_date: 开始日期，格式：YYYYMMDD
             end_date: 结束日期，格式：YYYYMMDD，默认为开始日期
-            page_size: 每页记录数，最多50
+            page_size: 每页记录数，最大50
             max_workers: 最大并发线程数，默认10
             
         Returns:
@@ -251,3 +251,4 @@ class SMSQueryClient:
         }
         return status_map.get(status, f'未知状态({status})')
     
+

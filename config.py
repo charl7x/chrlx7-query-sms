@@ -41,3 +41,4 @@ class Config:
 def get_config():
     """获取配置实例"""
     return Config()
+

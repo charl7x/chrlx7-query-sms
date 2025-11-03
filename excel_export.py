@@ -123,3 +123,4 @@ def export_to_excel(data: List[Dict], output_file: str):
     """
     exporter = ExcelExporter()
     exporter.export(data, output_file)
+

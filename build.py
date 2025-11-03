@@ -150,7 +150,7 @@ def create_usage_guide(release_dir):
    ALIYUN_ACCESS_KEY_SECRET=您的AccessKey Secret
    ALIYUN_REGION=cn-hangzhou
    
-   ⚠️  注意：请妄善保管 .env 文件，不要泄露给他人
+   ⚠️  注意：请妥善保管 .env 文件，不要泄露给他人
 
 
 二、使用方法
@@ -298,3 +298,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
