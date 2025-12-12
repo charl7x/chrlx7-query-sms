@@ -10,7 +10,7 @@ import click
 
 from config import get_config
 from sms_query import SMSQueryClient
-from excel_export import export_to_excel
+from csv_export import export_to_csv
 
 
 @click.command()
@@ -33,8 +33,8 @@ from excel_export import export_to_excel
 @click.option(
     '--output',
     '-o',
-    default='sms_details.xlsx',
-    help='输出的Excel文件名，默认为 sms_details.xlsx'
+    default='',
+    help='输出的CSV文件名，默认为 sms_details_YYYYMMDD_HHMMSS.csv'
 )
 @click.option(
     '--workers',
@@ -53,7 +53,7 @@ def main(phone, start_date, end_date, output, workers):
     
         python main.py --phone 13800138000 --start-date 20231101 --end-date 20231103
         
-        python main.py -p 13800138000 -s 20231103 -o my_sms.xlsx
+        python main.py -p 13800138000 -s 20231103 -o my_sms
         
         python main.py -p 13800138000 -s 20231101 -e 20231130 -w 15
     """
@@ -81,9 +81,18 @@ def main(phone, start_date, end_date, output, workers):
             click.echo("错误: 并发线程数必须在 1-20 之间", err=True)
             sys.exit(1)
         
-        # 输出文件路径处理
-        if not output.endswith('.xlsx'):
-            output = f"{output}.xlsx"
+        # 输出文件路径处理（添加时间戳）
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        if not output:
+            # 默认文件名
+            output = f"sms_details_{timestamp}.csv"
+        else:
+            # 用户指定文件名，插入时间戳
+            if output.endswith('.csv'):
+                base = output[:-4]
+                output = f"{base}_{timestamp}.csv"
+            else:
+                output = f"{output}_{timestamp}.csv"
         
         # 显示查询信息
         click.echo("=" * 60)
@@ -130,9 +139,9 @@ def main(phone, start_date, end_date, output, workers):
         # 显示统计信息
         _display_statistics(records)
         
-        # 导出到Excel
-        click.echo(f"\n正在导出到Excel文件: {output}")
-        export_to_excel(records, output)
+        # 导出到CSV
+        click.echo(f"\n正在导出到CSV文件: {output}")
+        export_to_csv(records, output)
         
         click.echo("\n✓ 任务完成!")
         click.echo("=" * 60)
